@@ -31,6 +31,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="etY-GV-M7m">
+                                <rect key="frame" x="247" y="85" width="130" height="308"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iJl-KW-hIH">
                                 <rect key="frame" x="32" y="379" width="207" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -68,14 +72,24 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="clickResultButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xWz-c5-dku"/>
+                                </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="etY-GV-M7m">
-                                <rect key="frame" x="247" y="85" width="130" height="308"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WFc-io-h4Q">
+                                <rect key="frame" x="32" y="549" width="207" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="6sZ-IP-mnL" appends="YES" id="55t-bg-Lau"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="heightDescriptLabel" destination="iJl-KW-hIH" id="aZM-PS-1by"/>
@@ -85,13 +99,19 @@
                         <outlet property="randomBmiButton" destination="wV6-Kl-TaK" id="tbx-ju-hpp"/>
                         <outlet property="resultButton" destination="n0A-rG-u8q" id="CwO-1j-fQh"/>
                         <outlet property="subTitleLabel" destination="LnD-7E-cc4" id="w5a-vN-iEF"/>
+                        <outlet property="validCheckLabel" destination="WFc-io-h4Q" id="mpD-ne-aXQ"/>
                         <outlet property="weightDescriptLabel" destination="cnh-GG-omF" id="cQf-2S-7Td"/>
                         <outlet property="weightTextField" destination="jbZ-zN-yGH" id="YPD-NS-xrA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="6sZ-IP-mnL">
+                    <connections>
+                        <action selector="keyboardDismiss:" destination="BYZ-38-t0r" id="Imv-ll-rhQ"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="21" y="-54"/>
+            <point key="canvasLocation" x="-175" y="-158"/>
         </scene>
     </scenes>
     <resources>
