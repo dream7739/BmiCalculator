@@ -19,6 +19,9 @@ class ViewController: UIViewController {
     @IBOutlet var randomBmiButton: UIButton!
     @IBOutlet var resultButton: UIButton!
     
+    private var maxHeightValue = 300.0
+    private var maxWeightValue = 500.0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -48,25 +51,29 @@ class ViewController: UIViewController {
     }
     
     @IBAction func randomButtonClicked(_ sender: UIButton) {
+        let randomHeight = Int.random(in: 0...Int(maxHeightValue))
+        let randomWeight = Int.random(in: 0...Int(maxWeightValue))
         
+        heightTextField.text = "\(randomHeight)"
+        weightTextField.text = "\(randomWeight)"
     }
     
     //결과 확인 버튼 클릭 시
     @IBAction func clickResultButton(_ sender: UIButton) {
         //신체질량지수(BMI) = 체중(kg) / [신장(m)]2
-        var bmiValue: Float
+        var bmiValue: Double
         
         if let height = heightTextField.text?.trimmingCharacters(in: .whitespaces) {
             if height ==  "" {
                 validCheckLabel.text = "키는 필수 항목입니다."
             }else{
-                if let convertedHeight = Float(height){
+                if let convertedHeight = Double(height){
                     
                     if let weight = weightTextField.text?.trimmingCharacters(in: .whitespaces) {
                         if weight == "" {
                             validCheckLabel.text = "몸무게는 필수 항목입니다."
                         }else{
-                            if let convertedWeight = Float(weight){
+                            if let convertedWeight = Double(weight){
                                 
                                 let isValide: Bool = heightWeightIsValide(weight: convertedWeight, height: convertedHeight)
                                 
@@ -85,14 +92,14 @@ class ViewController: UIViewController {
         }
     }
     
-    fileprivate func calculateBmi(weight: Float, height: Float) -> Float {
+    fileprivate func calculateBmi(weight: Double, height: Double) -> Double {
         let convertedHeight = height / 100
         let bmi = weight / (convertedHeight * convertedHeight)
         return bmi
     }
     
-    fileprivate func heightWeightIsValide(weight: Float, height: Float) -> Bool{
-        if weight > 1000.0 || height > 300.0 {
+    fileprivate func heightWeightIsValide(weight: Double, height: Double) -> Bool{
+        if weight > maxWeightValue || height > maxHeightValue {
             return false
         }else{
             return true
