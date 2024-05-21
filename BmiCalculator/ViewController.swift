@@ -47,44 +47,56 @@ class ViewController: UIViewController {
         view.endEditing(true)
     }
     
+    @IBAction func randomButtonClicked(_ sender: UIButton) {
+        
+    }
+    
     //결과 확인 버튼 클릭 시
     @IBAction func clickResultButton(_ sender: UIButton) {
         //신체질량지수(BMI) = 체중(kg) / [신장(m)]2
-        var inputHeight: Float
-        var inputWeight: Float
         var bmiValue: Float
         
         if let height = heightTextField.text?.trimmingCharacters(in: .whitespaces) {
-            if let convertedHeight = Float(height){
-                
-                inputHeight = convertedHeight / 100
-                
-                if let weight = weightTextField.text?.trimmingCharacters(in: .whitespaces) {
-                    if let convertedWeight = Float(weight){
-                        inputWeight = convertedWeight
-                        
-                        let isValide: Bool = heightWeightIsValide(weight: convertedWeight, height: convertedHeight)
-                        
-                        if isValide {
-                            bmiValue = inputWeight / (inputHeight * inputHeight)
-                            let bmiText = String(format: "%.2f", bmiValue)
-                            presentBmiAlert(value: bmiText)
+            if height ==  "" {
+                validCheckLabel.text = "키는 필수 항목입니다."
+            }else{
+                if let convertedHeight = Float(height){
+                    
+                    if let weight = weightTextField.text?.trimmingCharacters(in: .whitespaces) {
+                        if weight == "" {
+                            validCheckLabel.text = "몸무게는 필수 항목입니다."
                         }else{
-                            validCheckLabel.text = "유효하지 않은 범위의 숫자입니다"
+                            if let convertedWeight = Float(weight){
+                                
+                                let isValide: Bool = heightWeightIsValide(weight: convertedWeight, height: convertedHeight)
+                                
+                                if isValide {
+                                    bmiValue = calculateBmi(weight: convertedWeight, height: convertedHeight)
+                                    let bmiText = String(format: "%.2f", bmiValue)
+                                    presentBmiAlert(value: bmiText)
+                                }else{
+                                    validCheckLabel.text = "유효하지 않은 범위의 숫자입니다"
+                                }
+                            }
                         }
                     }
                 }
             }
-            
-            
         }
     }
     
+    fileprivate func calculateBmi(weight: Float, height: Float) -> Float {
+        let convertedHeight = height / 100
+        let bmi = weight / (convertedHeight * convertedHeight)
+        return bmi
+    }
+    
     fileprivate func heightWeightIsValide(weight: Float, height: Float) -> Bool{
-        if weight > 1000 && height > 300 {
+        if weight > 1000.0 || height > 300.0 {
             return false
+        }else{
+            return true
         }
-        return true
     }
     
     fileprivate func presentBmiAlert(value: String){
