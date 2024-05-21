@@ -36,6 +36,9 @@ class ViewController: UIViewController {
         
         designLabel(validCheckLabel, contentText: "", textFont: UIFont.systemFont(ofSize: 14), fontColor: .purple)
         
+        designTextField(heightTextField)
+        designTextField(weightTextField)
+        
         randomBmiButton.setTitle("랜덤으로 BMI 계산하기", for: .normal)
         randomBmiButton.tintColor = .red
         randomBmiButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
@@ -118,6 +121,13 @@ class ViewController: UIViewController {
         sender.text = contentText
         sender.font = textFont
         sender.textColor = fontColor
+    }
+    
+    fileprivate func designTextField(_ sender: UITextField){
+        sender.layer.cornerRadius = 15
+        sender.layer.borderColor = UIColor.black.cgColor
+        sender.layer.borderWidth = 1.3
+        sender.tintColor = .purple
     }
     
 }
