@@ -11,6 +11,8 @@ class ViewController: UIViewController {
     @IBOutlet var mainTitleLabel: UILabel!
     @IBOutlet var subTitleLabel: UILabel!
     @IBOutlet var mainImageView: UIImageView!
+    @IBOutlet var nicknameLabel: UILabel!
+    @IBOutlet var nicknameTextField: UITextField!
     @IBOutlet var heightDescriptLabel: UILabel!
     @IBOutlet var heightTextField: UITextField!
     @IBOutlet var weightDescriptLabel: UILabel!
@@ -18,6 +20,7 @@ class ViewController: UIViewController {
     @IBOutlet var validCheckLabel: UILabel!
     @IBOutlet var randomBmiButton: UIButton!
     @IBOutlet var resultButton: UIButton!
+    @IBOutlet var recentBmiLabel: UILabel!
     
     private var maxHeightValue = 300.0
     private var maxWeightValue = 500.0
@@ -29,13 +32,13 @@ class ViewController: UIViewController {
         
         designLabel(mainTitleLabel, contentText: "BMI Calculator", textFont: UIFont.boldSystemFont(ofSize: 25), fontColor: .black)
         designLabel(subTitleLabel, contentText: "당신의 BMI 지수를\n알려드릴게요", textFont: UIFont.systemFont(ofSize: 17), fontColor: .black)
-        
+        designLabel(nicknameLabel, contentText: "닉네임이 어떻게 되시나요?", textFont: UIFont.systemFont(ofSize: 14), fontColor: .black)
         designLabel(heightDescriptLabel, contentText: "키가 어떻게 되시나요?", textFont: UIFont.systemFont(ofSize: 14), fontColor: .black)
-        
         designLabel(weightDescriptLabel, contentText: "몸무게는 어떻게 되시나요?", textFont: UIFont.systemFont(ofSize: 14), fontColor: .black)
-        
         designLabel(validCheckLabel, contentText: "", textFont: UIFont.systemFont(ofSize: 14), fontColor: .purple)
+        designLabel(recentBmiLabel, contentText: "최근 내 기록", textFont: UIFont.systemFont(ofSize: 12), fontColor: .darkGray)
         
+        designTextField(nicknameTextField)
         designTextField(heightTextField)
         designTextField(weightTextField)
         
@@ -48,6 +51,11 @@ class ViewController: UIViewController {
         resultButton.tintColor = .white
         resultButton.titleLabel?.font = .systemFont(ofSize: 17)
         resultButton.layer.cornerRadius = 10
+        
+        let weight =  String(format: "%.2f", UserDefaults.standard.double(forKey: "weight"))
+        let height = String(format: "%.2f", UserDefaults.standard.double(forKey: "height"))
+        let nickname = UserDefaults.standard.string(forKey: "nickname") ?? "정보없음"
+        recentBmiLabel.text = "최근 \(nickname)님의 정보 \n키: \(height)cm  \n몸무게: \(weight)kg "
     }
     
     @IBAction func keyboardDismiss(_ sender: Any) {
@@ -68,8 +76,13 @@ class ViewController: UIViewController {
         var bmiValue: Double
         
         guard let heightText = heightTextField.text?.trimmingCharacters(in: .whitespaces),
-              let weightText = weightTextField.text?.trimmingCharacters(in: .whitespaces) else {
-            validCheckLabel.text = "필수 항목을 입력해주세요"
+              let weightText = weightTextField.text?.trimmingCharacters(in: .whitespaces),
+              let nicknameText = nicknameTextField.text?.trimmingCharacters(in: .whitespaces) else {
+            return
+        }
+        
+        if nicknameText == "" || weightText == "" || heightText == "" {
+            validCheckLabel.text = "필수값 입력이 필요합니다."
             return
         }
         
@@ -80,13 +93,21 @@ class ViewController: UIViewController {
         
         let isValid = heightWeightIsValide(weight: convertedWeight, height: convertedHeight)
         
+        //유효값이면 값 저장을 실행
         if isValid {
             bmiValue = calculateBmi(weight: convertedWeight, height: convertedHeight)
             presentBmiAlert(value: String(format: "%.2f", bmiValue))
+            saveRecentBmiData(convertedWeight, convertedHeight, nicknameText)
         }else{
             validCheckLabel.text = "유효한 범위의 숫자를 입력해주세요"
         }
         
+    }
+    
+    fileprivate func saveRecentBmiData(_ weight: Double, _ height: Double, _ nickname: String){
+        UserDefaults.standard.setValue(weight, forKey: "weight")
+        UserDefaults.standard.setValue(height, forKeyPath: "height")
+        UserDefaults.standard.setValue(nickname, forKeyPath: "nickname")
     }
     
     fileprivate func calculateBmi(weight: Double, height: Double) -> Double {
@@ -115,6 +136,7 @@ class ViewController: UIViewController {
         sender.text = contentText
         sender.font = textFont
         sender.textColor = fontColor
+        sender.numberOfLines = 0
     }
     
     fileprivate func designTextField(_ sender: UITextField){
