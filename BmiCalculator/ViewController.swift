@@ -49,7 +49,8 @@ class ViewController: UIViewController {
         resultButton.titleLabel?.font = .systemFont(ofSize: 17)
         resultButton.layer.cornerRadius = 10
     }
-    @IBAction func keyboardDismiss(_ sender: UITapGestureRecognizer) {
+    
+    @IBAction func keyboardDismiss(_ sender: Any) {
         view.endEditing(true)
     }
     
@@ -127,6 +128,7 @@ class ViewController: UIViewController {
         sender.layer.borderColor = UIColor.black.cgColor
         sender.layer.borderWidth = 1.3
         sender.tintColor = .purple
+        sender.clearButtonMode = .whileEditing
     }
     
 }
