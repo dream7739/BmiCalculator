@@ -54,8 +54,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func randomButtonClicked(_ sender: UIButton) {
-        let randomHeight = Int.random(in: 0...Int(maxHeightValue))
-        let randomWeight = Int.random(in: 0...Int(maxWeightValue))
+        let randomHeight = Int.random(in: 1...Int(maxHeightValue))
+        let randomWeight = Int.random(in: 1...Int(maxWeightValue))
         
         heightTextField.text = "\(randomHeight)"
         weightTextField.text = "\(randomWeight)"
