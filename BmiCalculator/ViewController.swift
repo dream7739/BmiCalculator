@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     @IBOutlet var weightDescriptLabel: UILabel!
     @IBOutlet var weightTextField: UITextField!
     @IBOutlet var validCheckLabel: UILabel!
+    @IBOutlet var resetButton: UIButton!
     @IBOutlet var randomBmiButton: UIButton!
     @IBOutlet var resultButton: UIButton!
     @IBOutlet var recentBmiLabel: UILabel!
@@ -42,6 +43,10 @@ class ViewController: UIViewController {
         designTextField(heightTextField)
         designTextField(weightTextField)
         
+        resetButton.setTitle("초기화", for: .normal)
+        resetButton.tintColor = .black
+        resetButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        
         randomBmiButton.setTitle("랜덤으로 BMI 계산하기", for: .normal)
         randomBmiButton.tintColor = .red
         randomBmiButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
@@ -60,6 +65,12 @@ class ViewController: UIViewController {
     
     @IBAction func keyboardDismiss(_ sender: Any) {
         view.endEditing(true)
+    }
+    
+    @IBAction func resetButtonClicked(_ sender: UIButton) {
+        nicknameTextField.text = ""
+        heightTextField.text = ""
+        weightTextField.text = ""
     }
     
     @IBAction func randomButtonClicked(_ sender: UIButton) {
