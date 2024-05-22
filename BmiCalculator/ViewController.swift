@@ -82,8 +82,7 @@ class ViewController: UIViewController {
                                 
                                 if isValide {
                                     bmiValue = calculateBmi(weight: convertedWeight, height: convertedHeight)
-                                    let bmiText = String(format: "%.2f", bmiValue)
-                                    presentBmiAlert(value: bmiText)
+                                    presentBmiAlert(value: String(format: "%.2f", bmiValue))
                                 }else{
                                     validCheckLabel.text = "유효하지 않은 범위의 숫자입니다"
                                 }
@@ -102,10 +101,10 @@ class ViewController: UIViewController {
     }
     
     fileprivate func heightWeightIsValide(weight: Double, height: Double) -> Bool{
-        if weight > maxWeightValue || height > maxHeightValue {
-            return false
-        }else{
+        if (weight > 0 && weight <= maxWeightValue) && (height > 0 && height <= maxHeightValue){
             return true
+        }else{
+            return false
         }
     }
     
