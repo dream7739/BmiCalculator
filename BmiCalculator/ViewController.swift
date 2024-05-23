@@ -115,19 +115,19 @@ class ViewController: UIViewController {
         
     }
     
-    fileprivate func saveRecentBmiData(_ weight: Double, _ height: Double, _ nickname: String){
+    private func saveRecentBmiData(_ weight: Double, _ height: Double, _ nickname: String){
         UserDefaults.standard.setValue(weight, forKey: "weight")
         UserDefaults.standard.setValue(height, forKeyPath: "height")
         UserDefaults.standard.setValue(nickname, forKeyPath: "nickname")
     }
     
-    fileprivate func calculateBmi(weight: Double, height: Double) -> Double {
+    private func calculateBmi(weight: Double, height: Double) -> Double {
         let convertedHeight = height / 100
         let bmi = weight / (convertedHeight * convertedHeight)
         return bmi
     }
     
-    fileprivate func heightWeightIsValide(weight: Double, height: Double) -> Bool{
+    private func heightWeightIsValide(weight: Double, height: Double) -> Bool{
         if (weight > 0 && weight <= maxWeightValue) && (height > 0 && height <= maxHeightValue){
             return true
         }else{
@@ -135,7 +135,7 @@ class ViewController: UIViewController {
         }
     }
     
-    fileprivate func presentBmiAlert(value: String){
+    private func presentBmiAlert(value: String){
         let bmiAlert = UIAlertController(title: "BMI", message: "\(value)", preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "확인", style: .default)
         bmiAlert.addAction(confirmAction)
@@ -143,14 +143,14 @@ class ViewController: UIViewController {
     }
     
     
-    fileprivate func designLabel(_ sender: UILabel, contentText: String, textFont: UIFont, fontColor: UIColor){
+    private func designLabel(_ sender: UILabel, contentText: String, textFont: UIFont, fontColor: UIColor){
         sender.text = contentText
         sender.font = textFont
         sender.textColor = fontColor
         sender.numberOfLines = 0
     }
     
-    fileprivate func designTextField(_ sender: UITextField){
+    private func designTextField(_ sender: UITextField){
         sender.layer.cornerRadius = 15
         sender.layer.borderColor = UIColor.black.cgColor
         sender.layer.borderWidth = 1.3
