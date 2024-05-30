@@ -23,12 +23,15 @@ class ViewController: UIViewController {
     @IBOutlet var resultButton: UIButton!
     @IBOutlet var recentBmiLabel: UILabel!
     
-    private var maxHeightValue = 300.0
-    private var maxWeightValue = 500.0
+    private var bmi = BMI(height: 0, weight: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        configureLayout()
+        configureData()
+    }
+    
+    func configureLayout(){
         mainImageView.image = UIImage(named: "image")
         
         designLabel(mainTitleLabel, contentText: "BMI Calculator", textFont: UIFont.boldSystemFont(ofSize: 25), fontColor: .black)
@@ -45,7 +48,9 @@ class ViewController: UIViewController {
         
         resetButton.setTitle("초기화", for: .normal)
         resetButton.tintColor = .black
-        resetButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        resetButton.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        resetButton.layer.cornerRadius = 10
+        resetButton.layer.borderWidth = 1.3
         
         randomBmiButton.setTitle("랜덤으로 BMI 계산하기", for: .normal)
         randomBmiButton.tintColor = .red
@@ -57,12 +62,17 @@ class ViewController: UIViewController {
         resultButton.titleLabel?.font = .systemFont(ofSize: 17)
         resultButton.layer.cornerRadius = 10
         
-        let weight =  String(format: "%.2f", UserDefaults.standard.double(forKey: "weight"))
-        let height = String(format: "%.2f", UserDefaults.standard.double(forKey: "height"))
-        let nickname = UserDefaults.standard.string(forKey: "nickname") ?? "정보없음"
-        recentBmiLabel.text = "최근 \(nickname)님의 정보 \n키: \(height)cm  \n몸무게: \(weight)kg "
     }
     
+    func configureData(){
+        
+        fetchUserDefaultsData()
+        
+        recentBmiLabel.text = bmi.resultDescription
+    }
+}
+
+extension ViewController {
     @IBAction func keyboardDismiss(_ sender: Any) {
         view.endEditing(true)
     }
@@ -74,65 +84,45 @@ class ViewController: UIViewController {
     }
     
     @IBAction func randomButtonClicked(_ sender: UIButton) {
-        let randomHeight = Int.random(in: 1...Int(maxHeightValue))
-        let randomWeight = Int.random(in: 1...Int(maxWeightValue))
-        
-        heightTextField.text = "\(randomHeight)"
-        weightTextField.text = "\(randomWeight)"
+        heightTextField.text = "\(bmi.randomHeight)"
+        weightTextField.text = "\(bmi.randomWeight)"
     }
     
     //결과 확인 버튼 클릭 시
-    @IBAction func clickResultButton(_ sender: UIButton) {
+    @IBAction func resulltButtonClicked(_ sender: UIButton) {
         //신체질량지수(BMI) = 체중(kg) / [신장(m)]2
-        var bmiValue: Double
         
         guard let heightText = heightTextField.text?.trimmingCharacters(in: .whitespaces),
-              let weightText = weightTextField.text?.trimmingCharacters(in: .whitespaces),
-              let nicknameText = nicknameTextField.text?.trimmingCharacters(in: .whitespaces) else {
+              let weightText = weightTextField.text?.trimmingCharacters(in: .whitespaces)
+              else {
             return
         }
         
-        if nicknameText == "" || weightText == "" || heightText == "" {
+        if weightText.isEmpty || heightText.isEmpty {
             validCheckLabel.text = "필수값 입력이 필요합니다."
             return
         }
         
-        guard let convertedHeight = Double(heightText), let convertedWeight = Double(weightText) else{
+        guard let convertedHeight = Double(heightText),
+                let convertedWeight = Double(weightText) else{
             validCheckLabel.text = "숫자를 입력해주세요"
             return
         }
         
-        let isValid = heightWeightIsValide(weight: convertedWeight, height: convertedHeight)
-        
-        //유효값이면 값 저장을 실행
-        if isValid {
-            bmiValue = calculateBmi(weight: convertedWeight, height: convertedHeight)
-            presentBmiAlert(value: String(format: "%.2f", bmiValue))
-            saveRecentBmiData(convertedWeight, convertedHeight, nicknameText)
+        if  convertedWeight > 0 && convertedWeight <= bmi.maxWeight &&
+             convertedHeight > 0 && convertedHeight <= bmi.maxHeight {
+            
+            bmi.nickName = nicknameTextField.text?.trimmingCharacters(in: .whitespaces)
+            bmi.height = convertedHeight
+            bmi.weight = convertedWeight
+            
+            presentBmiAlert(value: bmi.bmiDescription)
+      
+            saveUserDefaultsData()
         }else{
             validCheckLabel.text = "유효한 범위의 숫자를 입력해주세요"
         }
         
-    }
-    
-    private func saveRecentBmiData(_ weight: Double, _ height: Double, _ nickname: String){
-        UserDefaults.standard.setValue(weight, forKey: "weight")
-        UserDefaults.standard.setValue(height, forKeyPath: "height")
-        UserDefaults.standard.setValue(nickname, forKeyPath: "nickname")
-    }
-    
-    private func calculateBmi(weight: Double, height: Double) -> Double {
-        let convertedHeight = height / 100
-        let bmi = weight / (convertedHeight * convertedHeight)
-        return bmi
-    }
-    
-    private func heightWeightIsValide(weight: Double, height: Double) -> Bool{
-        if (weight > 0 && weight <= maxWeightValue) && (height > 0 && height <= maxHeightValue){
-            return true
-        }else{
-            return false
-        }
     }
     
     private func presentBmiAlert(value: String){
@@ -142,6 +132,19 @@ class ViewController: UIViewController {
         present(bmiAlert, animated: true)
     }
     
+    private func saveUserDefaultsData(){
+        UserDefaults.standard.set(bmi.nickName, forKey: "nickName")
+        UserDefaults.standard.set(bmi.height, forKey: "height")
+        UserDefaults.standard.set(bmi.weight, forKey: "weight")
+        UserDefaults.standard.set(bmi.bmi, forKey: "bmi")
+    }
+    
+    private func fetchUserDefaultsData(){
+        bmi.nickName = UserDefaults.standard.string(forKey: "nickName")
+        bmi.height = UserDefaults.standard.double(forKey: "height")
+        bmi.weight = UserDefaults.standard.double(forKey: "weight")
+
+    }
     
     private func designLabel(_ sender: UILabel, contentText: String, textFont: UIFont, fontColor: UIColor){
         sender.text = contentText
@@ -157,6 +160,5 @@ class ViewController: UIViewController {
         sender.tintColor = .purple
         sender.clearButtonMode = .whileEditing
     }
-    
 }
 

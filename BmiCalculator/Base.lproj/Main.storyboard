@@ -68,7 +68,7 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
-                                    <action selector="clickResultButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xWz-c5-dku"/>
+                                    <action selector="resulltButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xWz-c5-dku"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WFc-io-h4Q">
@@ -113,7 +113,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ogn-Li-8o5">
-                                <rect key="frame" x="272" y="569.66666666666663" width="46" height="30"/>
+                                <rect key="frame" x="30" y="685" width="354" height="41"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
@@ -131,9 +131,11 @@
                             <constraint firstItem="etY-GV-M7m" firstAttribute="leading" secondItem="sK4-n6-Cfa" secondAttribute="trailing" constant="10" id="6vo-Ba-BRb"/>
                             <constraint firstItem="n0A-rG-u8q" firstAttribute="top" secondItem="WFc-io-h4Q" secondAttribute="bottom" constant="40" id="7B7-cF-lwB"/>
                             <constraint firstItem="cnh-GG-omF" firstAttribute="top" secondItem="8Pb-ay-Fl3" secondAttribute="bottom" constant="10" id="9x9-ED-f3I"/>
+                            <constraint firstItem="ogn-Li-8o5" firstAttribute="top" secondItem="n0A-rG-u8q" secondAttribute="bottom" constant="10" id="B0q-5b-d5S"/>
                             <constraint firstItem="LnD-7E-cc4" firstAttribute="top" secondItem="1Hm-2w-OAW" secondAttribute="bottom" constant="13" id="Bq7-bj-ITp"/>
                             <constraint firstItem="LnD-7E-cc4" firstAttribute="leading" secondItem="1Hm-2w-OAW" secondAttribute="leading" id="FCc-5r-HES"/>
                             <constraint firstItem="jbZ-zN-yGH" firstAttribute="height" secondItem="8Pb-ay-Fl3" secondAttribute="height" id="J8C-hn-yAJ"/>
+                            <constraint firstItem="ogn-Li-8o5" firstAttribute="height" secondItem="n0A-rG-u8q" secondAttribute="height" multiplier="1.025" id="JCg-DX-gxW"/>
                             <constraint firstItem="n0A-rG-u8q" firstAttribute="trailing" secondItem="jbZ-zN-yGH" secondAttribute="trailing" id="JD3-c0-fAF"/>
                             <constraint firstItem="iJl-KW-hIH" firstAttribute="top" secondItem="Btc-wA-bPx" secondAttribute="bottom" constant="10" id="KMi-3C-x32"/>
                             <constraint firstItem="wV6-Kl-TaK" firstAttribute="centerY" secondItem="WFc-io-h4Q" secondAttribute="centerY" id="M4c-cn-gOd"/>
@@ -151,11 +153,11 @@
                             <constraint firstItem="etY-GV-M7m" firstAttribute="top" secondItem="1Hm-2w-OAW" secondAttribute="top" id="ejL-uQ-hCf"/>
                             <constraint firstItem="Btc-wA-bPx" firstAttribute="leading" secondItem="BJN-nA-JCJ" secondAttribute="leading" id="fS0-YH-fZZ"/>
                             <constraint firstItem="n0A-rG-u8q" firstAttribute="leading" secondItem="jbZ-zN-yGH" secondAttribute="leading" id="i1p-9z-Vig"/>
+                            <constraint firstItem="ogn-Li-8o5" firstAttribute="trailing" secondItem="n0A-rG-u8q" secondAttribute="trailing" id="jkM-5L-bml"/>
                             <constraint firstItem="Btc-wA-bPx" firstAttribute="height" secondItem="8Pb-ay-Fl3" secondAttribute="height" id="l94-iB-G64"/>
                             <constraint firstItem="Btc-wA-bPx" firstAttribute="top" secondItem="BJN-nA-JCJ" secondAttribute="bottom" constant="10" id="mR7-IY-h4n"/>
                             <constraint firstItem="WFc-io-h4Q" firstAttribute="leading" secondItem="jbZ-zN-yGH" secondAttribute="leading" id="naH-vk-yAf"/>
-                            <constraint firstItem="wV6-Kl-TaK" firstAttribute="leading" secondItem="ogn-Li-8o5" secondAttribute="trailing" constant="20" id="p07-D3-eKI"/>
-                            <constraint firstItem="ogn-Li-8o5" firstAttribute="top" secondItem="wV6-Kl-TaK" secondAttribute="top" id="pKB-vQ-ab5"/>
+                            <constraint firstItem="ogn-Li-8o5" firstAttribute="leading" secondItem="n0A-rG-u8q" secondAttribute="leading" id="pBn-z8-J7z"/>
                             <constraint firstItem="cnh-GG-omF" firstAttribute="leading" secondItem="8Pb-ay-Fl3" secondAttribute="leading" id="qxk-iD-5F5"/>
                             <constraint firstItem="1Hm-2w-OAW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="rjv-N6-Yvh"/>
                             <constraint firstItem="WFc-io-h4Q" firstAttribute="top" secondItem="jbZ-zN-yGH" secondAttribute="bottom" constant="15" id="wIQ-Hw-uDG"/>
