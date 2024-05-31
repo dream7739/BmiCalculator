@@ -31,45 +31,6 @@ class ViewController: UIViewController {
         configureData()
     }
     
-    func configureLayout(){
-        mainImageView.image = UIImage(named: "image")
-        
-        designLabel(mainTitleLabel, contentText: "BMI Calculator", textFont: UIFont.boldSystemFont(ofSize: 25), fontColor: .black)
-        designLabel(subTitleLabel, contentText: "당신의 BMI 지수를\n알려드릴게요", textFont: UIFont.systemFont(ofSize: 17), fontColor: .black)
-        designLabel(nicknameLabel, contentText: "닉네임이 어떻게 되시나요?", textFont: UIFont.systemFont(ofSize: 14), fontColor: .black)
-        designLabel(heightDescriptLabel, contentText: "키가 어떻게 되시나요?", textFont: UIFont.systemFont(ofSize: 14), fontColor: .black)
-        designLabel(weightDescriptLabel, contentText: "몸무게는 어떻게 되시나요?", textFont: UIFont.systemFont(ofSize: 14), fontColor: .black)
-        designLabel(validCheckLabel, contentText: "", textFont: UIFont.systemFont(ofSize: 14), fontColor: .purple)
-        designLabel(recentBmiLabel, contentText: "최근 내 기록", textFont: UIFont.systemFont(ofSize: 12), fontColor: .darkGray)
-        
-        designTextField(nicknameTextField)
-        designTextField(heightTextField)
-        designTextField(weightTextField)
-        
-        resetButton.setTitle("초기화", for: .normal)
-        resetButton.tintColor = .black
-        resetButton.titleLabel?.font = UIFont.systemFont(ofSize: 17)
-        resetButton.layer.cornerRadius = 10
-        resetButton.layer.borderWidth = 1.3
-        
-        randomBmiButton.setTitle("랜덤으로 BMI 계산하기", for: .normal)
-        randomBmiButton.tintColor = .red
-        randomBmiButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        
-        resultButton.setTitle("결과 확인", for: .normal)
-        resultButton.backgroundColor = .purple
-        resultButton.tintColor = .white
-        resultButton.titleLabel?.font = .systemFont(ofSize: 17)
-        resultButton.layer.cornerRadius = 10
-        
-    }
-    
-    func configureData(){
-        
-        fetchUserDefaultsData()
-        
-        recentBmiLabel.text = bmi.resultDescription
-    }
 }
 
 extension ViewController {
@@ -93,8 +54,7 @@ extension ViewController {
         //신체질량지수(BMI) = 체중(kg) / [신장(m)]2
         
         guard let heightText = heightTextField.text?.trimmingCharacters(in: .whitespaces),
-              let weightText = weightTextField.text?.trimmingCharacters(in: .whitespaces)
-              else {
+              let weightText = weightTextField.text?.trimmingCharacters(in: .whitespaces) else {
             return
         }
         
@@ -104,28 +64,55 @@ extension ViewController {
         }
         
         guard let convertedHeight = Double(heightText),
-                let convertedWeight = Double(weightText) else{
+              let convertedWeight = Double(weightText) else{
             validCheckLabel.text = "숫자를 입력해주세요"
             return
         }
         
         if  convertedWeight > 0 && convertedWeight <= bmi.maxWeight &&
-             convertedHeight > 0 && convertedHeight <= bmi.maxHeight {
+                convertedHeight > 0 && convertedHeight <= bmi.maxHeight {
             
-            bmi.nickName = nicknameTextField.text?.trimmingCharacters(in: .whitespaces)
+            bmi.nickName = nicknameTextField.text!.trimmingCharacters(in: .whitespaces)
             bmi.height = convertedHeight
             bmi.weight = convertedWeight
             
-            presentBmiAlert(value: bmi.bmiDescription)
-      
+            presentBMIAlert(value: bmi.bmiDescription)
+            
             saveUserDefaultsData()
+            
         }else{
             validCheckLabel.text = "유효한 범위의 숫자를 입력해주세요"
         }
         
     }
     
-    private func presentBmiAlert(value: String){
+    private func configureLayout(){
+        mainImageView.image = UIImage.mainImage
+        
+        designLabel(mainTitleLabel, "BMI Calculator", textFont: .primary, fontColor: .black)
+        designLabel(subTitleLabel, "당신의 BMI 지수를\n알려드릴게요", textFont: .secondary, fontColor: .black)
+        designLabel(nicknameLabel, "닉네임이 어떻게 되시나요?", textFont: .tertiary, fontColor: .black)
+        designLabel(heightDescriptLabel, "키가 어떻게 되시나요?", textFont: .tertiary, fontColor: .black)
+        designLabel(weightDescriptLabel, "몸무게는 어떻게 되시나요?", textFont: .tertiary, fontColor: .black)
+        designLabel(validCheckLabel, "", textFont: .tertiary, fontColor: .purple)
+        designLabel(recentBmiLabel, "최근 내 기록", textFont: .tertiary, fontColor: .darkGray)
+        
+        designTextField(nicknameTextField)
+        designTextField(heightTextField)
+        designTextField(weightTextField)
+        
+        designResetButton()
+        designRandomButton()
+        designResultButotn()
+        
+    }
+    
+    private func configureData(){
+        fetchUserDefaultsData()
+        recentBmiLabel.text = bmi.resultDescription
+    }
+    
+    private func presentBMIAlert(value: String){
         let bmiAlert = UIAlertController(title: "BMI", message: "\(value)", preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "확인", style: .default)
         bmiAlert.addAction(confirmAction)
@@ -133,21 +120,19 @@ extension ViewController {
     }
     
     private func saveUserDefaultsData(){
-        UserDefaults.standard.set(bmi.nickName, forKey: "nickName")
-        UserDefaults.standard.set(bmi.height, forKey: "height")
-        UserDefaults.standard.set(bmi.weight, forKey: "weight")
-        UserDefaults.standard.set(bmi.bmi, forKey: "bmi")
+        BMIManager.nickname = bmi.nickName
+        BMIManager.height = bmi.height
+        BMIManager.weight = bmi.weight
     }
     
     private func fetchUserDefaultsData(){
-        bmi.nickName = UserDefaults.standard.string(forKey: "nickName")
-        bmi.height = UserDefaults.standard.double(forKey: "height")
-        bmi.weight = UserDefaults.standard.double(forKey: "weight")
-
+        bmi.nickName = BMIManager.nickname
+        bmi.height = BMIManager.height
+        bmi.weight = BMIManager.weight
     }
     
-    private func designLabel(_ sender: UILabel, contentText: String, textFont: UIFont, fontColor: UIColor){
-        sender.text = contentText
+    private func designLabel(_ sender: UILabel, _ contents: String, textFont: UIFont, fontColor: UIColor){
+        sender.text = contents
         sender.font = textFont
         sender.textColor = fontColor
         sender.numberOfLines = 0
@@ -159,6 +144,28 @@ extension ViewController {
         sender.layer.borderWidth = 1.3
         sender.tintColor = .purple
         sender.clearButtonMode = .whileEditing
+    }
+    
+    private func designResetButton(){
+        resetButton.setTitle("초기화", for: .normal)
+        resetButton.tintColor = .black
+        resetButton.titleLabel?.font = .secondary
+        resetButton.layer.cornerRadius = 10
+        resetButton.layer.borderWidth = 1.3
+    }
+    
+    private func designRandomButton(){
+        randomBmiButton.setTitle("랜덤으로 BMI 계산하기", for: .normal)
+        randomBmiButton.tintColor = .red
+        randomBmiButton.titleLabel?.font = .tertiary
+    }
+    
+    private func designResultButotn(){
+        resultButton.setTitle("결과 확인", for: .normal)
+        resultButton.backgroundColor = .purple
+        resultButton.tintColor = .white
+        resultButton.titleLabel?.font = .secondary
+        resultButton.layer.cornerRadius = 10
     }
 }
 
