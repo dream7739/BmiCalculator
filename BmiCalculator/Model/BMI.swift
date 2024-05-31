@@ -35,9 +35,10 @@ struct BMI{
         get {
             if nickName.isEmpty {
                 return "정보없음"
+            }else{
+                return nickName
+
             }
-            
-            return nickName
         }
     }
     

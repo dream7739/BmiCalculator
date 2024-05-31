@@ -89,13 +89,21 @@ extension ViewController {
     private func configureLayout(){
         mainImageView.image = UIImage.mainImage
         
-        designLabel(mainTitleLabel, "BMI Calculator", textFont: .primary, fontColor: .black)
-        designLabel(subTitleLabel, "당신의 BMI 지수를\n알려드릴게요", textFont: .secondary, fontColor: .black)
-        designLabel(nicknameLabel, "닉네임이 어떻게 되시나요?", textFont: .tertiary, fontColor: .black)
-        designLabel(heightDescriptLabel, "키가 어떻게 되시나요?", textFont: .tertiary, fontColor: .black)
-        designLabel(weightDescriptLabel, "몸무게는 어떻게 되시나요?", textFont: .tertiary, fontColor: .black)
-        designLabel(validCheckLabel, "", textFont: .tertiary, fontColor: .purple)
-        designLabel(recentBmiLabel, "최근 내 기록", textFont: .tertiary, fontColor: .darkGray)
+        designLabel(mainTitleLabel, textFont: .primary, fontColor: .black)
+        designLabel(subTitleLabel, textFont: .secondary, fontColor: .black)
+        designLabel(nicknameLabel, textFont: .tertiary, fontColor: .black)
+        designLabel(heightDescriptLabel, textFont: .tertiary, fontColor: .black)
+        designLabel(weightDescriptLabel, textFont: .tertiary, fontColor: .black)
+        designLabel(validCheckLabel, textFont: .tertiary, fontColor: .purple)
+        designLabel(recentBmiLabel,  textFont: .tertiary, fontColor: .darkGray)
+        
+        mainTitleLabel.text = "BMI Calculator"
+        subTitleLabel.text = "당신의 BMI 지수를\n알려드릴게요"
+        nicknameLabel.text = "닉네임이 어떻게 되시나요?"
+        heightDescriptLabel.text = "키가 어떻게 되시나요?"
+        weightDescriptLabel.text = "몸무게는 어떻게 되시나요?"
+        validCheckLabel.text = ""
+        recentBmiLabel.text = "최근 내 기록"
         
         designTextField(nicknameTextField)
         designTextField(heightTextField)
@@ -131,8 +139,7 @@ extension ViewController {
         bmi.weight = BMIManager.weight
     }
     
-    private func designLabel(_ sender: UILabel, _ contents: String, textFont: UIFont, fontColor: UIColor){
-        sender.text = contents
+    private func designLabel(_ sender: UILabel, textFont: UIFont, fontColor: UIColor){
         sender.font = textFont
         sender.textColor = fontColor
         sender.numberOfLines = 0
